@@ -14,3 +14,8 @@
 html {
   scroll-behavior: smooth;
 }
+
+.placeholder-color {
+  color: #e0e0e0;
+  font-weight: 300;
+}
