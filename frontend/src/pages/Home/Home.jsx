@@ -1,8 +1,11 @@
 import React from 'react'
+import { Header } from '../../components/component_index'
 
 function Home() {
   return (
-    <div>Home</div>
+    <div>
+      <Header />
+    </div>
   )
 }
 
