@@ -4,6 +4,7 @@ import Steps from "./Steps/Steps";
 import Description from "./Description/Description";
 import Testimonial from "./Testimonial/Testimonial";
 import GenerateBtn from "./GenerateBtn/GenerateBtn";
+import Footer from "./Footer/Footer";
 
 export {
     Navbar,
@@ -12,4 +13,5 @@ export {
     Description,
     Testimonial,
     GenerateBtn,
+    Footer,
 }
