@@ -1,10 +1,11 @@
 import React from 'react'
-import { Header } from '../../components/component_index'
+import { Header, Steps } from '../../components/component_index'
 
 function Home() {
   return (
     <div>
       <Header />
+      <Steps />
     </div>
   )
 }
