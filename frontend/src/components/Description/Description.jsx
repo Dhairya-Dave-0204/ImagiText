@@ -1,9 +1,15 @@
 import React from "react";
+import { motion } from "motion/react";
 import { assets } from "../../assets/assets";
 
 function Description() {
   return (
-    <div className="flex flex-col items-center justify-center p-6 my-24 md:px-28">
+    <motion.div className="flex flex-col items-center justify-center p-6 my-24 md:px-28"
+      initial={{opacity: 0.2, y: 100}}
+      transition={{duration: 1}}
+      whileInView={{opacity: 1, y: 0}}
+      viewport={{once: true}}
+    >
       <h1 className="mb-2 text-3xl font-semibold sm:text-4xl">
         Create AI images
       </h1>
@@ -34,7 +40,7 @@ function Description() {
           </p>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

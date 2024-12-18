@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { motion } from "motion/react";
 import { assets } from "../../assets/assets";
 import { AppContext } from "../../context/AppContext";
 
@@ -15,8 +16,13 @@ function Login() {
   }, [])
 
   return (
-    <div className="absolute top-0 bottom-0 left-0 right-0 z-10 flex items-center justify-center bg-black/30 backdrop-blur-sm">
-      <form className="relative p-10 bg-white rounded-xl text-slate-500">
+    <div className="fixed top-0 bottom-0 left-0 right-0 z-10 flex items-center justify-center bg-black/30 backdrop-blur-sm">
+      <motion.form className="relative p-10 bg-white rounded-xl text-slate-500"
+        initial={{opacity: 0.2, y: 50}}
+        whileInView={{opacity: 1, y: 0}}
+        transition={{duration: 0.3}}
+        viewport={{once: true}}
+      >
         <h1 className="mb-2 text-2xl font-semibold text-center text-neutral-700">
           {state}
         </h1>
@@ -79,7 +85,7 @@ function Login() {
           onClick={() => setShowLogin(false)}
           className="absolute cursor-pointer top-5 right-5"
         />
-      </form>
+      </motion.form>
     </div>
   );
 }
