@@ -72,15 +72,35 @@ const loginUser = async (req, res) => {
     }
   } catch (error) {
     res.json({
-        success: false,
-        message: "Error creating user",
-        error: error.message,
-      });
-      console.log("Error creating a user" + error);
+      success: false,
+      message: "Error creating user",
+      error: error.message,
+    });
+    console.log("Error creating a user" + error);
   }
 };
 
-export {
-    registerUser,
-    loginUser
-}
+const userCredits = async (req, res) => {
+  // retreving credentials from the request body sent by user from login page and finding that in DB
+  try {
+    const { userId } = req.body;
+
+    const user = await userModel.findById(userId);
+    // retriving the amount of credits user owns 
+    res.json({
+      success: true,
+      credits: user.creditBalance,
+      user: { name: user.name },
+      message: "Found the requested user",
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      message: "Error creating user",
+      error: error.message,
+    });
+    console.log("Error creating a user" + error);
+  }
+};
+
+export { registerUser, loginUser, userCredits };
