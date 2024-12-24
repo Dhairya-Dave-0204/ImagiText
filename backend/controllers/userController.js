@@ -1,6 +1,8 @@
 import userModel from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import  Razorpay  from 'razorpay';
+import transactionModel from "../models/transactionModel.js";
 
 const registerUser = async (req, res) => {
   try {
@@ -103,4 +105,80 @@ const userCredits = async (req, res) => {
   }
 };
 
-export { registerUser, loginUser, userCredits };
+// Creating a razorpay instance
+const razorpayInstance = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
+})
+
+// Creating a payment method via razorpay
+const paymentRazorpay = async (req, res) => {
+  try {
+    // fetching user and plan data from the request made by user
+    const { userId, planId } = req.body
+    const userData = await userModel.findById(userId)
+
+    if (!userData || !planId) {
+      return res.json({ success: false, message: "Invalid user or plan", error: error.message, });
+    }
+
+    let credits, plan, amount, date
+
+    // fetching the plan details from the DB and verifying it 
+    switch (planId) {
+      case "Basic":
+        plan = "Basic"
+        credits = 10
+        amount = 100
+        break;
+      
+        case "Advanced":
+        plan = "Advanced"
+        credits = 100
+        amount = 500
+        break;
+      
+        case "Business":
+        plan = "Business"
+        credits = 300
+        amount = 1000
+        break;
+    
+      default:
+        return res.json({ success: false, message: "Invalid plan", error: error.message, });
+    }
+
+    date = Date.now()
+
+    // Creating a payment instance and creating payment via razorpay
+    const transactionData = {
+      userId, plan, amount, date, credits
+    }
+
+    const newTransaction = await transactionModel.create(transactionData)
+
+    const options = {
+      amount: amount * 100,
+      currency: process.env.CURRENCY,
+      receipt: newTransaction._id,
+    }
+
+    await razorpayInstance.orders.create(options, (error, order) => {
+      if (error) {
+        console.log(error);
+        return res.json({ success: false, message: "Error creating order", error: error.message });
+
+      }
+      return res.json({ success: true, message: "Order completed", order });
+    })
+  } catch (error) {
+    console.log(error);
+    res.json({
+      success: false,
+      message: "Error in doing payment!",
+      error: error.message,
+    });
+  }
+}
+
+export { registerUser, loginUser, userCredits, paymentRazorpay };
