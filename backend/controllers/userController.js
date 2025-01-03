@@ -177,4 +177,40 @@ const paymentRazorpay = async (req, res) => {
   }
 };
 
-export { registerUser, loginUser, userCredits, paymentRazorpay };
+const verifyRazorpay = async (req, res) => {
+  try {
+    const { razorpay_order_id } = req.body;
+    const orderInfo = await razorpayInstance.orders.fetch(razorpay_order_id);
+
+    if (orderInfo.status === "paid") {
+      const transactionData = await transactionModel.findById(orderInfo.receipt);
+      if (!transactionData) {
+        console.log("Transaction not found");
+        return res.json({ success: false, message: "Transaction not found" });
+      }
+      if (transactionData.payment) {
+        return res.json({
+          success: false,
+          message: "Payment already verified previously",
+        });
+      }
+
+      const userData = await userModel.findById(transactionData.userId);
+
+      const creditBalance = userData.creditBalance + transactionData.credits;
+
+      await userModel.findByIdAndUpdate(userData._id, { creditBalance });
+
+      await transactionModel.findByIdAndUpdate(transactionData._id, {  payment: true });
+
+      return res.json({ success: true, message: "Payment verified successfully and Credits added" });
+    } else {
+      res.json({ success: false, message: "Payment failed or not verified" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: "Error in payment verification" });
+  }
+};
+
+export { registerUser, loginUser, userCredits, paymentRazorpay, verifyRazorpay };

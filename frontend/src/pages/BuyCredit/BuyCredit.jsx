@@ -7,8 +7,7 @@ import { AppContext } from "../../context/AppContext";
 import { toast } from "react-toastify";
 
 function BuyCredit() {
-  const { user, backendUrl, loadCreditsData, token, setShowLogin } =
-    useContext(AppContext);
+  const { user, backendUrl, loadCreditsData, token, setShowLogin } = useContext(AppContext);
   const navigate = useNavigate();
 
   const initPay = async (order) => {
@@ -18,10 +17,19 @@ function BuyCredit() {
       currency: order.currency,
       name: "Credits payment",
       description: "Credits payment for ImagiText",
-      orderId: order.id,
+      order_id: order.id,
       receipt: order.receipt,
       handler: async (response) => {
-        console.log(response);
+        try {
+          const { data } = await axios.post(backendUrl + "/api/user/verify", response, { headers: { token } });
+          if (data.success) {
+            loadCreditsData();
+            navigate("/");
+            toast.success("Credits Added");
+          }
+        } catch (error) {
+          toast.error(error.message);
+        }
       },
     };
     const rzp = new window.Razorpay(options);
