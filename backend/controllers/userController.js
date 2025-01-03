@@ -156,12 +156,12 @@ const paymentRazorpay = async (req, res) => {
       date,
     };
 
-    const newTransaction = await transactionModel(transcationData);
+    const newTransaction = await transactionModel(transcationData).save();
 
     const options = {
       amount: amount * 100,
       currency: process.env.CURRENCY || "INR",
-      receipt: newTransaction._id,
+      receipt: newTransaction._id.toString(),
     };
 
     await razorpayInstance.orders.create(options, (error, order) => {
