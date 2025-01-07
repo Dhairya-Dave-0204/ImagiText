@@ -48,11 +48,13 @@ Ensure you have the following installed on your system:
 **Installation**
 1. Clone the repository:
    ```bash
-   git clone https://github.com/Dhairya-Dave-0204/ImagiText.git```
+   git clone https://github.com/Dhairya-Dave-0204/ImagiText.git
+   ```
    
 2. Navigate to the project directory:
    ```bash
-   cd ImagiText```
+   cd ImagiText
+   ```
    
 3. Install dependencies for both frontend and backend:
    ```bash
@@ -62,7 +64,8 @@ Ensure you have the following installed on your system:
 
    # Backend dependencies
    cd ../server
-   npm install```
+   npm install
+   ```
 
 **Environment Variables**
 Create a .env file in the server directory and add the following variables:
