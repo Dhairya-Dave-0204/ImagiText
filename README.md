@@ -75,7 +75,6 @@ Create a .env file in the server directory and add the following variables:
   RAZORPAY_KEY_SECRET=<Your Razorpay Key Secret>
   FRONTEND_URL=<Your Frontend URL>
 ```
-Replace <Your MongoDB Connection String>, <Your JWT Secret>, <Your Razorpay Key ID>, and <Your Razorpay Key Secret> with your specific credentials.
 
 ## Usage
 1. Start the backend server:
