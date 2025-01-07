@@ -2,7 +2,7 @@
 ImagiText is a Software-as-a-Service (SaaS) application designed to generate images based on user-provided text prompts. This project leverages the MERN (MongoDB, Express, React, Node.js) stack and integrates a credit-based system where users receive a default of 5 free credits upon signing up. To continue generating images after exhausting the free credits, users can purchase additional credits.
 
 ## Demo
-You can check out the live demo of the blog website here: [Deployed Blog Website](https://imagi-text-eight.vercel.app)
+You can check out the live demo of the blog website here: [Deployed Website](https://imagi-text-eight.vercel.app)
 
 Feel free to explore, create an account, and start experimenting!
 
